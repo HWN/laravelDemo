@@ -1,4 +1,5 @@
 @extends('layouts.app_template')
+@section('title','管理')
 @section('content')
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header header">
@@ -100,7 +101,7 @@
         <img src="{{ URL::asset('img/my-tip.jpg') }}" alt=""/>
     </div>
 @stop
-@section('script')
+@push('scripts')
     <script id="menu-tpl" type="text/html"
             data-params='{"url":"{{ URL::asset('data/menu.php') }}","listid":"menu","icon":"true"}'>
         @verbatim
@@ -148,6 +149,8 @@
         {{# }); }}
     </script>
     @endverbatim
+@endpush
+@push('scripts')
     <script>
         layui.config({
             base: '{{ URL::asset('js') }}/'
@@ -166,4 +169,4 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-@stop
+@endpush

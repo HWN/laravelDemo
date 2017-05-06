@@ -83,13 +83,13 @@ layui.define(['jquery', 'laytpl', 'layer', 'modal', 'ajax', 'laypage', 'form'], 
      */
     dtable.prototype.setUrlPage = function(curr) {
 
-        if (this.options.url.indexOf("p=") != -1) {
-            this.options.url = this.options.url.replace(/p=\d+/, "p=" + curr);
+        if (this.options.url.indexOf("page=") != -1) {
+            this.options.url = this.options.url.replace(/page=\d+/, "page=" + curr);
         } else {
             if (this.options.url.indexOf("?") != -1) {
-                this.options.url = this.options.url + "&p=" + curr;
+                this.options.url = this.options.url + "&page=" + curr;
             } else {
-                this.options.url = this.options.url + "?p=" + curr;
+                this.options.url = this.options.url + "?page=" + curr;
             }
         }
         this.ajax(curr);
@@ -136,13 +136,14 @@ layui.define(['jquery', 'laytpl', 'layer', 'modal', 'ajax', 'laypage', 'form'], 
             success: function(ret) {
                 layer.close(l);
                 if (ret.status == 200) {
-                    if (undefined == ret.data || "" == ret.data) {
-                        return false;
-                    }
                     _this.options.pages = ret.pages;
                     _this.render(ret.data);
                     if ("" != _this.options.pageid && curr == undefined) {
                         _this.page();
+                    }
+                    if (undefined == ret.data || "" == ret.data) {
+                        $('#' + _this.options.listid).html('');
+                        return false;
                     }
                 } else {
                     layer.msg('请求数据出错，请稍后再试...');

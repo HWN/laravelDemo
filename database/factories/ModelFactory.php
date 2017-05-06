@@ -16,9 +16,25 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'name'           => $faker->name,
+        'email'          => $faker->unique()->safeEmail,
+        'password'       => $password ?: $password = bcrypt('secret'),
+        'phone'          => $faker->phoneNumber,
+        'sex'            => random_int(0, 2),
+        'status'         => random_int(0, 1),
+        'remark'         => str_random(10),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Article::class, function (Faker\Generator $faker) {
+    $userIds = \App\User::pluck('id')->toArray();
+    return [
+        'uid'     => $faker->randomElement($userIds),
+        'title'   => str_random(10),
+        'logo'    => $faker->image(),
+        'content' => str_random(100),
+        'publish_at' =>$faker->dateTime(),
+        'content' => str_random(100),
     ];
 });

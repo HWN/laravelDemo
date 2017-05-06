@@ -35,7 +35,7 @@ $menu = [
         [
             ["id"=>12,  "url"=>"", "name"=>"会员管理","iconfont"=>"&#xe672;","sub"=>
                 [
-                    ["id"=>13,  "url"=>"user/index", "name"=>"会员列表","iconfont"=>"&#xe630;"],
+                    ["id"=>13,  "url"=>"user", "name"=>"会员列表","iconfont"=>"&#xe630;"],
                     ["id"=>14,  "url"=>"member-level", "name"=>"会员等级","iconfont"=>"&#xe60f;"],
                     ["id"=>15,  "url"=>"member-statistics", "name"=>"会员统计","iconfont"=>"&#xe74d;"]
                 ]
@@ -55,8 +55,8 @@ $menu = [
             ],
             ["id"=>21,  "url"=>"", "name"=>"权限管理","iconfont"=>"&#xe646;","sub"=>
                 [
-                    ["id"=>22,  "url"=>"admin-role", "name"=>"角色管理","iconfont"=>"&#xe689;"],
-                    ["id"=>23,  "url"=>"admin-permission", "name"=>"权限设置","iconfont"=>"&#xe64a;"],
+                    ["id"=>22,  "url"=>"role", "name"=>"角色管理","iconfont"=>"&#xe689;"],
+                    ["id"=>23,  "url"=>"permission", "name"=>"权限设置","iconfont"=>"&#xe64a;"],
                     ["id"=>24,  "url"=>"admin", "name"=>"管理员","iconfont"=>"&#xe654;"]
                 ]
             ]

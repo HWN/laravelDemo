@@ -65,6 +65,14 @@ return [
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => 'localhost',
+            'port'     => 12345,
+            'database' => 'test',
+            'username' => '',
+            'password' => '',
+        ],
 
     ],
 

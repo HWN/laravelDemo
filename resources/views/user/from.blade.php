@@ -1,13 +1,13 @@
 <div class="layui-form-item">
     {!! Form::label('name', '姓名', ['class' => 'layui-form-label']) !!}
     <div class="layui-input-block">
-        {!! Form::text('name', null, [0=>'sda','class' => 'layui-input','required'=>'required','jq-verify'=>'required','jq-error'=>'请输入姓名','jq-url'=>'/php/check.php','placeholder'=>'请输入姓名','autocomplete'=>'off','jj']) !!}
+        {!! Form::text('name', null, ['class' => 'layui-input','placeholder'=>'请输入姓名','autocomplete'=>'off']) !!}
     </div>
 </div>
 <div class="layui-form-item">
     {!! Form::label('phone', '手机', ['class' => 'layui-form-label']) !!}
     <div class="layui-input-block">
-        {!! Form::text('phone', '', ['class' => 'layui-input','jq-verify'=>'phone','jq-error'=>'手机号码格式不对','placeholder'=>'请输入手机号码','autocomplete'=>'off']) !!}
+        {!! Form::text('phone', null, ['class' => 'layui-input','jq-verify'=>'phone','jq-error'=>'手机号码格式不对','placeholder'=>'请输入手机号码','autocomplete'=>'off']) !!}
     </div>
 </div>
 <div class="layui-form-item">
@@ -16,6 +16,15 @@
         {!! Form::email('email', null, ['class' => 'layui-input','jq-verify'=>'email','jq-error'=>'邮箱格式不对','placeholder'=>'请输入邮箱','autocomplete'=>'off','required'=>'required']) !!}
     </div>
 </div>
+{{--新增单独添加密码输入窗口--}}
+@if (empty($user))
+    <div class="layui-form-item">
+        {!! Form::label('password', '密码', ['class' => 'layui-form-label']) !!}
+        <div class="layui-input-block">
+            {!! Form::password('password', ['class' => 'layui-input','placeholder'=>'请输入密码','autocomplete'=>'off','required'=>'required']) !!}
+        </div>
+    </div>
+@endif
 <div class="layui-form-item">
     {!! Form::label('sex', '性别', ['class' => 'layui-form-label']) !!}
     <div class="layui-input-block">
@@ -24,18 +33,17 @@
         {!! Form::radio('sex', '2', null,  ['title'=>'保密']) !!}
     </div>
 </div>
-
 <div class="layui-form-item">
     {!! Form::label('status', '状态', ['class' => 'layui-form-label']) !!}
     <div class="layui-input-inline">
         {!! Form::radio('status', '1', null,  ['title'=>'启用','checked' => 'checked']) !!}
-        {!! Form::radio('status', '0', null,  ['title'=>'启用']) !!}
+        {!! Form::radio('status', '0', null,  ['title'=>'禁用']) !!}
     </div>
 </div>
 <div class="layui-form-item layui-form-text">
     {!! Form::label('remark', '备注', ['class' => 'layui-form-label']) !!}
     <div class="layui-input-block">
-        {!! Form::textarea('remark', '', ['class' => 'layui-textarea','placeholder'=>'请输入内容']) !!}
+        {!! Form::textarea('remark', null, ['class' => 'layui-textarea','placeholder'=>'请输入内容']) !!}
     </div>
 </div>
 <div class="layui-form-item">

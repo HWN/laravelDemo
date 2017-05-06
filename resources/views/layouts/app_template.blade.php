@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>后台</title>
+    <title>后台--@yield('title')</title>
     <meta name="description"
           content="一款由JQ酷为了省时间而打造的后台管理模板，封装了常用的JS方法，使得你可以写更少甚至不写js代码就可以完成整个后台的搭建。模板使用了layui，模块化开发，本套模板是按着本人这些年来的习惯编写，也为方便以后搭建项目的便捷而编写"/>
     <meta name="keywords" content="jqadmin,后台模板,layui后台模板"/>
@@ -23,6 +23,9 @@
 </head>
 <body>
     @yield('content')
+    {{--@section('sidebar')--}}
+        {{--This is the master sidebar.--}}
+    {{--@show--}}
 </body>
-    @yield('script')
+    @stack('scripts')
 </html>

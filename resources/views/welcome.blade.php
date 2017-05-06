@@ -1,6 +1,6 @@
 @extends('layouts.app_template')
+@section('title','首页')
 @section('content')
-
 <body>
     <div class="container-fluid larry-wrapper">
         <!--顶部统计数据预览 -->
@@ -288,7 +288,7 @@
     </div>
 </body>
 @stop
-@section('script')
+@push('scripts')
     <script>
         layui.config({
             base: '{{ URL::asset('js') }}/'
@@ -298,4 +298,4 @@
             modal: 'jqmodules/modal'
         }).use(['main', 'echart']);
     </script>
-@stop
+@endpush

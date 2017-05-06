@@ -5,27 +5,11 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <!--头部搜索-->
                 <section class="panel panel-padding">
-                    <form class="layui-form" action="/php/data.php">
+                    <form class="layui-form" action="{{ url('user/getList') }}">
                         <div class="layui-form">
                             <div class="layui-inline">
-                                <select name="city" lay-verify="required">
-                                    <option value="0">请选择地区</option>
-                                    <option value="010">北京</option>
-                                    <option value="021">上海</option>
-                                    <option value="0571">杭州</option>
-                                </select>
-                            </div>
-                            <div class="layui-inline">
                                 <div class="layui-input-inline">
-                                    <input class="layui-input start-date" name="start_date" placeholder="注册时间">
-                                </div>
-                                <div class="layui-input-inline">
-                                    <input class="layui-input end-date" name="end_date" placeholder="注册时间">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <div class="layui-input-inline">
-                                    <input class="layui-input" name="keyword" placeholder="关键字">
+                                    <input class="layui-input" name="name" placeholder="姓名">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -38,16 +22,16 @@
                 <!--列表-->
                 <section class="panel panel-padding">
                     <div class="group-button">
-                        <button class="layui-btn layui-btn-small layui-btn-danger ajax-all" data-name="checkbox"
-                                data-params='{"url": "/php/test.php","data":"id=1&name=ni&checkbox=6,9,0&va=23"}'>
+                        <button class="layui-btn layui-btn-small layui-btn-danger ajax-all" data-name="uid"
+                                data-params='{"url": "{{ url('user/del') }}","data":"_token={{csrf_token()}}"}'>
                             <i class="iconfont">&#xe626;</i> 删除
                         </button>
-                        <button class="layui-btn layui-btn-small layui-btn-normal ajax-all" data-name="checkbox"
-                                data-params='{"url": "/php/test.php","data":"id=1&name=hao&checkbox=6,9,0&va=23"}'>
-                            <i class="layui-icon">&#x1005;</i> 审核
-                        </button>
+                        {{--<button class="layui-btn layui-btn-small layui-btn-normal ajax-all" data-name="checkbox"--}}
+                        {{--data-params='{"url": "{{ url('user/check') }}","data":"_token={{csrf_token()}}"}'>--}}
+                        {{--<i class="layui-icon">&#x1005;</i> 审核--}}
+                        {{--</button>--}}
                         <button class="layui-btn layui-btn-small modal-iframe"
-                                data-params='{"content": "{{ url('user/create') }}", "title": "添加会员","type":"1","shade":"true","area":"1000px,700px"}'>
+                                data-params='{"content": "{{ url('user/open') }}", "title": "添加会员","type":"1","shade":"true","area":"1000px,700px"}'>
                             <i class="iconfont">&#xe649;</i> 添加
                         </button>
                     </div>
@@ -59,16 +43,19 @@
         </div>
     </div>
 @stop
-@section('script')
-    <script id="list-tpl" type="text/html" data-params='{"url":"{{ url('user/getList') }}"}'>
+@push('scripts')
+    <script id="list-tpl" type="text/html"
+            data-params='{"url":"{{ url('user/getList') }}","pageid":"#page"}'>
         <table id="example" class="layui-table lay-even">
             <thead>
             <tr>
-                <th width="30"><input type="checkbox" id="checkall" data-name="checkbox" lay-filter="check" lay-skin="primary"></th>
+                <th width="30"><input type="checkbox" id="checkall" data-name="uid" lay-filter="check"
+                                      lay-skin="primary"></th>
                 <th width="60">序号</th>
                 <th width="100">头像</th>
                 <th>姓名</th>
                 <th>手机</th>
+                <th>邮箱</th>
                 <th width="70">性别</th>
                 <th width="80">审核</th>
                 <th width="142">操作</th>
@@ -77,22 +64,37 @@
             <tbody>
             @{{# layui.each(d, function(index, item){ }}
             <tr>
-                <td><input type="checkbox" name="checkbox" value="@{{ item.id}}" lay-skin="primary"></td>
+                <td><input type="checkbox" name="uid" value="@{{ item.id}}" lay-skin="primary"></td>
                 <td>@{{ item.id}}</td>
                 <td>
                     <img src="images/upload.jpg" alt="..." class="img-thumbnail">
                 </td>
                 <td>@{{ item.name }}</td>
-                <td>1591236597</td>
-                <td>男</td>
-                <td><input type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" @{{#if (item.switch){ }}checked="checked" @{{# } }} lay-filter="ajax" data-params='{"url":"/php/test.php","data":"id=@{{ item.id}}&name=paco"}'> </td>
+                <td>@{{ item.phone }}</td>
+                <td>@{{ item.email }}</td>
+                <td>@{{#if (item.sex==1){ }}
+                    男
+                    @{{# }else if(item.sex==0){ }}
+                    女
+                    @{{# }else{ }}
+                    保密
+                    @{{# } }}
+                </td>
                 <td>
-                    <button class="layui-btn layui-btn-mini modal-iframe" data-params='{"content": "{{ url('user/create') }}/@{{item.id}}", "title": "编辑@{{item.name}}","type":"1","shade":"true","area":"1000px,700px"}'>
+                    <input type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用"
+                           @{{#if (item.status){ }}checked="checked" @{{# } }} lay-filter="ajax"
+                           data-params='{"url":"{{ url('user/check') }}","data":"uid=@{{ item.id}}&_token={{csrf_token()}}"}'>
+                </td>
+                <td>
+                    <button class="layui-btn layui-btn-mini modal-iframe"
+                            data-params='{"content": "{{ url('user/open') }}/@{{item.id}}", "title": "编辑@{{item.name}}","type":"1","shade":"true","area":"1000px,700px"}'>
                         <i class="iconfont">&#xe653;</i>编辑
                     </button>
-                    <button class="layui-btn layui-btn-mini layui-btn-danger ajax" data-params='{"url": "/php/test.php","data":"id=1&name=ni"}'>
+                    <button class="layui-btn layui-btn-mini layui-btn-danger ajax"
+                            data-params='{"url": "{{ url('user/del') }}","data":"uid=@{{item.id}}&_token={{csrf_token()}}"}'>
                         <i class="iconfont">&#xe626;</i>删除
-                    </button></td>
+                    </button>
+                </td>
                 </td>
             </tr>
             @{{# }); }}
@@ -110,4 +112,4 @@
             modal: 'jqmodules/modal',
         }).use('list');
     </script>
-@stop
+@endpush

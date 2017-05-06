@@ -9,7 +9,7 @@
  * +----------------------------------------------------------------------
  */
 
-layui.define(['form', 'layer'], function(exports) {
+layui.define(['form', 'layer'], function (exports) {
     "use strict";
 
     var $ = layui.jquery,
@@ -19,7 +19,7 @@ layui.define(['form', 'layer'], function(exports) {
         MOD_NAME = 'jqform',
         ELEM = '.layui-form',
         THIS = 'layui-this',
-        Jqform = function() {
+        Jqform = function () {
             this.config = {
                 verify: {
                     required: [
@@ -60,7 +60,7 @@ layui.define(['form', 'layer'], function(exports) {
     /**
      *@todo 设置参数
      */
-    Jqform.prototype.set = function(options) {
+    Jqform.prototype.set = function (options) {
         var that = this;
         $.extend(true, that.config, options);
         return that;
@@ -70,20 +70,20 @@ layui.define(['form', 'layer'], function(exports) {
     /**
      *@todo 合并配雷超参数
      */
-    Jqform.prototype.verify = function(settings) {
+    Jqform.prototype.verify = function (settings) {
         var that = this;
         $.extend(true, that.config.verify, settings);
         return that;
     };
 
-    Jqform.prototype.init = function() {
+    Jqform.prototype.init = function () {
         var _this = this;
         if (this.config.blur) {
-            $(this.config.form).find('*[jq-verify]').blur(function() {
+            $(this.config.form).find('*[jq-verify]').blur(function () {
                 _this.check($(this));
             });
 
-            forms.on('select(verify)', function(data) {
+            forms.on('select(verify)', function (data) {
                 _this.check($(data.elem));
             });
         }
@@ -93,7 +93,7 @@ layui.define(['form', 'layer'], function(exports) {
      *@todo 根据规则验证数据
      *@param object obj 当前点击的提交按钮对象
      */
-    Jqform.prototype.check = function(obj) {
+    Jqform.prototype.check = function (obj) {
         var ver = obj.attr('jq-verify').split('|'),
             err = obj.attr('jq-error'),
             errorId = obj.attr('error-id'),
@@ -114,7 +114,7 @@ layui.define(['form', 'layer'], function(exports) {
             err = err.split('|');
         }
 
-        $.each(ver, function(index, thisVer) {
+        $.each(ver, function (index, thisVer) {
             var isFn = typeof verify[thisVer] === 'function';
             if (verify[thisVer] && (isFn ? tips = verify[thisVer](value, obj) : !verify[thisVer][0].test(value))) {
                 var errHtml = "",
@@ -152,7 +152,7 @@ layui.define(['form', 'layer'], function(exports) {
                     winHeight = $(window).height();
 
                 if ((winScrollTop > itemOffsetTop + itemOuterHeight) || (winScrollTop < itemOffsetTop - winHeight)) {
-                    $('body,html').stop().animate({ scrollTop: top.top - 20 }, 500);
+                    $('body,html').stop().animate({scrollTop: top.top - 20}, 500);
                 }
 
                 stop = true;
@@ -178,7 +178,7 @@ layui.define(['form', 'layer'], function(exports) {
      *@param event object 事件对象
      *@param options object 拼装好的参数对象
      **/
-    Jqform.prototype.ajax = function(options, form) {
+    Jqform.prototype.ajax = function (options, form) {
         if (options == undefined || options == null) {
             return;
         }
@@ -196,14 +196,14 @@ layui.define(['form', 'layer'], function(exports) {
             data: options.data,
             timeout: options.timeout,
             cache: options.cache,
-            error: function(XMLHttpRequest, status, thrownError) {
+            error: function (XMLHttpRequest, status, thrownError) {
                 if (options.loading == true) {
                     layer.close(l);
                 }
                 layer.msg('网络繁忙，请稍后重试...');
                 return false;
             },
-            success: function(msg) {
+            success: function (msg) {
                 if (options.loading == true) {
                     layer.close(l);
                 }
@@ -217,7 +217,7 @@ layui.define(['form', 'layer'], function(exports) {
      *@param ret object 服务端返回的信息 ret={status:200,data:data,url:baidu.com}
      *@param options object 拼装好的参数对象
      **/
-    Jqform.prototype.callBack = function(ret, options) {
+    Jqform.prototype.callBack = function (ret, options) {
         if ((undefined == ret) || (null == ret))
             return false;
         if (options.complete) {
@@ -258,31 +258,40 @@ layui.define(['form', 'layer'], function(exports) {
     /**
      *提交表单时较验
      */
-    Jqform.prototype.submit = function(event) {
+    Jqform.prototype.submit = function (event) {
         var button = $(this),
             form = event.data.form,
             stop = null,
             field = {},
             elem = button.parents(ELEM)
 
-        , verifyElem = elem.find('*[jq-verify]') //获取需要校验的元素
+            , verifyElem = elem.find('*[jq-verify]') //获取需要校验的元素
 
-        , formElem = button.parents('form')[0] //获取当前所在的form元素，如果存在的话
+            , formElem = button.parents('form')[0] //获取当前所在的form元素，如果存在的话
             , fieldElem = elem.find('input,select,textarea') //获取所有表单域
             , filter = button.attr('lay-filter') //获取过滤器
 
         //开始校验
-        layui.each(verifyElem, function(_, item) {
+        layui.each(verifyElem, function (_, item) {
             stop = form.check($(this));
             return stop;
         });
 
         if (stop) return false;
 
-        layui.each(fieldElem, function(_, item) {
+        layui.each(fieldElem, function (_, item) {
             if (!item.name) return;
             if (/^checkbox|radio$/.test(item.type) && !item.checked) return;
-            field[item.name] = item.value;
+            var indexOf = item.name.indexOf("[]")
+            if (indexOf >= 0) {
+                //数组
+                if(field[item.name.slice(0, indexOf)] == undefined){
+                    field[item.name.slice(0, indexOf)] = [];
+                }
+                field[item.name.slice(0, indexOf)].push(item.value);
+            } else {
+                field[item.name] = item.value;
+            }
         });
 
         if (form.config.ajax) {
@@ -317,7 +326,7 @@ layui.define(['form', 'layer'], function(exports) {
     //自动完成渲染
     var form = new Jqform(),
         dom = $(document);
-    dom.on('click', '*[jq-submit]', { form: form }, form.submit);
+    dom.on('click', '*[jq-submit]', {form: form}, form.submit);
 
     exports(MOD_NAME, form);
 });
