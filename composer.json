@@ -15,9 +15,12 @@
     "laravel/framework": "5.4.*",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.4",
+    "latrell/alipay": "dev-master",
     "prettus/l5-repository": "^2.6",
     "zizaco/confide": "~4.3@dev",
-    "zizaco/entrust": "5.2.x-dev"
+    "zizaco/entrust": "5.2.x-dev",
+    "ignited/laravel-omnipay": "2.*",
+    "lokielse/omnipay-alipay": "dev-master"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

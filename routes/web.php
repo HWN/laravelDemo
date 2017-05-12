@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+Route::get('/alipay','TestController@alpay');
 Route::get('/test', 'TestController@index');
 Route::get('/post', 'PostsController@index');
 //用户管理

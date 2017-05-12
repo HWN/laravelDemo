@@ -180,7 +180,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\MyServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Latrell\Alipay\AlipayServiceProvider::class,
+        Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class
     ],
 
     /*
@@ -232,6 +234,7 @@ return [
         'Form'         => Collective\Html\FormFacade::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'Entrust'      => Zizaco\Entrust\EntrustFacade::class,
+        'Omnipay'      => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
     ],
 
 ];
